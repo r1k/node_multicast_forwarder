@@ -4,8 +4,8 @@ var OUT_PORT = '54321';
 
 var INCOMING_MULTICAST = "224.1.4.100";
 var INCOMING_PORT = "2000";
-var DESTINATION_MULTICAST = "239.100.1.2";
-var DESTINATION_PORT = "5000";
+var DEST_MULTICAST = "239.100.1.2";
+var DEST_PORT = "5000";
 
 var dgram = require('dgram');
 var incoming = dgram.createSocket({type: 'udp4', reuseAddr: true});
@@ -13,20 +13,16 @@ var outgoing = dgram.createSocket({type: 'udp4', reuseAddr: true});
 
 outgoing.bind(OUT_PORT, OUT_HOST);
 outgoing.on('listening', function() {
-    var address = outgoing.address();
-    console.log('Broadcasting on ' + address.address + ":" + address.port);
-    outgoing.setBroadcast(true);
-    outgoing.setMulticastTTL(128);
+    console.log('Broadcasting on ' + this.address().address + ":" + this.address().port);
+    this.setBroadcast(true);
+    this.setMulticastTTL(128);
 });
 
 incoming.on('listening', function () {
-    var address = incoming.address();
-    console.log('Listening on ' + address.address + ":" + address.port);
-    incoming.addMembership(INCOMING_MULTICAST, IN_HOST);
+    console.log('Listening on ' + this.address().address + ":" + this.address().port);
+    this.addMembership(INCOMING_MULTICAST, IN_HOST);
 });
 
-incoming.on('message', function (incoming_packet, remote) {
-    outgoing.send(incoming_packet, 0, incoming_packet.length, DESTINATION_PORT, DESTINATION_MULTICAST);
-});
+incoming.on('message', (packet) => { outgoing.send(packet, 0, packet.length, DEST_PORT, DEST_MULTICAST); });
 
 incoming.bind(INCOMING_PORT);
