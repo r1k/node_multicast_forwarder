@@ -7,5 +7,9 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
-  "license": "Public Domain"
+  "license": "Public Domain",
+  "dependencies": {
+    "command-line-args": "4.0",
+    "command-line-usage": "^4.0.1"
+  }
 }
