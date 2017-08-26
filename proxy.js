@@ -9,22 +9,22 @@ const optionDefinitions = [
     { name: 'outmcast', type: String, description: "The output address", typeLabel: "<addr>" },
     { name: 'outport', type: String, description: "The output port", typeLabel: "<port>" },
     { name: 'help', alias: 'h', type: Boolean, description: "Display the help"}
-  ]
+  ];
 
 const options = commandLineArgs(optionDefinitions, { partial: false });
     
 function show_help(){
     const usage = commandLineUsage([
         {
-        header: 'Typical Example',
-        content: 'A simple example demonstrating typical usage.'
+            header: 'Multicast Forwarder',
+            content: 'An application to forward a multicast from one port to another.'
         },
         {
-        header: 'Options',
-        optionList: optionDefinitions
+            header: 'Options',
+            optionList: optionDefinitions
         }
-    ])
-    console.log(usage)
+    ]);
+    console.log(usage);
     process.exit();
 }
 
